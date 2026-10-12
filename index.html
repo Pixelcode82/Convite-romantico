@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quer sair comigo?</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-color: #ffc0cb; /* Fundo rosa claro */
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+            z-index: 10;
+            max-width: 400px;
+        }
+
+        .emoji-header {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            color: #d81b60;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 25px;
+            min-height: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            position: relative;
+            height: 50px;
+        }
+
+        button {
+            padding: 10px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        #btn-sim {
+            background-color: #e91e63;
+            color: white;
+        }
+
+        #btn-sim:hover {
+            background-color: #c2185b;
+            transform: scale(1.05);
+        }
+
+        #btn-nao {
+            background-color: #e0e0e0;
+            color: #333;
+            position: absolute; /* Permite mover livremente */
+        }
+
+        /* Estilo para os corações caindo */
+        .heart {
+            position: absolute;
+            color: #ff3366;
+            font-size: 20px;
+            animation: fall linear forwards;
+            z-index: 1;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) scale(0.8);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh) scale(1.2);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card" id="card">
+        <div class="emoji-header">💞</div>
+        <h1>Quer sair comigo?</h1>
+        <p id="mensagem-sub">Prometo que vai ser divertido 🥰</p>
+        
+        <div class="buttons" id="area-botoes">
+            <button id="btn-sim" onclick="aceertou()">Sim! 🥰</button>
+            <button id="btn-nao" onmouseover="fugir()" onclick="fugir()">Não</button>
+        </div>
+    </div>
+
+    <script>
+        const frases = [
+            O, que foi? 🤨",
+            "Desiste, ele é mais rápido que você! 💅",
+            "O botão não vai ser clicado! 🤭",
+            "O sim é o único caminho, hein.. 👀",
+            "Erro 404: Opção 'Não' não encontrada. 🤖",
+            "Vai logo aceitando vai... ❤️"
+        ];
+
+        function fugir() {
+            const btnNao = document.getElementById('btn-nao');
+            const sub = document.getElementById('mensagem-sub');
+            
+            // Escolhe uma frase aleatória para instigar o usuário
+            const fraseAleatoria = frases[Math.floor(Math.random() * frases.length)];
+            sub.innerText = fraseAleatoria;
+
+            // Posições aleatórias dentro da tela
+            const maxX = window.innerWidth - btnNao.offsetWidth - 50;
+            const maxY = window.innerHeight - btnNao.offsetHeight - 50;
+            
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+
+            btnNao.style.left = randomX + 'px';
+            btnNao.style.top = randomY + 'px';
+        }
+
+        function aceertou() {
+            const card = document.getElementById('card');
+            card.innerHTML = `
+                <div style="font-size: 50px;">🥰</div>
+                <h1 style="color: #d81b60;">Eeeeba!!</h1>
+                <p style="color: #555;">Eu sabia que você ia dizer sim ❤️<br>Já vou escolher o lugar!</p>
+            `;
+            
+            // Disparar chuva de corações
+            setInterval(criarCoracao, 100);
+        }
+
+        function criarCoracao() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
